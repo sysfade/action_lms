@@ -1,3 +1,4 @@
+import { API_URL } from './config';
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${localStorage.getItem('lms_token')}`,
@@ -14,4 +15,4 @@ const handleResponse = async (res) => {
 };
 
 export const getDashboardData = () =>
-  fetch('/api/dashboard', { headers: getAuthHeaders() }).then(handleResponse);
+  fetch(`${API_URL}/api/dashboard`, { headers: getAuthHeaders() }).then(handleResponse);

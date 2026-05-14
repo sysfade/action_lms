@@ -1,3 +1,4 @@
+import { API_URL } from './config';
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${localStorage.getItem('lms_token')}`,
@@ -14,17 +15,17 @@ const handleResponse = async (res) => {
 };
 
 export const getDiscussions = (lessonId) =>
-  fetch(`/api/lessons/${lessonId}/discussions`, { headers: getAuthHeaders() }).then(handleResponse);
+  fetch(`${API_URL}/api/lessons/${lessonId}/discussions`, { headers: getAuthHeaders() }).then(handleResponse);
 
 export const postComment = (lessonId, message, parentId = null) =>
-  fetch(`/api/lessons/${lessonId}/discussions`, {
+  fetch(`${API_URL}/api/lessons/${lessonId}/discussions`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify({ message, parentId }),
   }).then(handleResponse);
 
 export const deleteComment = (id) =>
-  fetch(`/api/discussions/${id}`, {
+  fetch(`${API_URL}/api/discussions/${id}`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
   }).then(handleResponse);

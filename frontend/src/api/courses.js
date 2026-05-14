@@ -1,4 +1,5 @@
-const BASE = '/api/courses';
+import { API_URL } from './config';
+const BASE = `${API_URL}/api/courses`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('lms_token');

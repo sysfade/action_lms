@@ -1,3 +1,4 @@
+import { API_URL } from './config';
 const BASE_COURSES = '/api/courses';
 const BASE_LESSONS = '/api/lessons';
 
@@ -60,7 +61,7 @@ export const uploadFile = (file) => {
   formData.append('file', file);
   
   const token = localStorage.getItem('lms_token');
-  return fetch('/api/upload', {
+  return fetch(`${API_URL}/api/upload`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,

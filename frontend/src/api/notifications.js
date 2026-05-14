@@ -1,4 +1,5 @@
-const BASE = '/api/notifications';
+import { API_URL } from './config';
+const BASE = `${API_URL}/api/notifications`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('lms_token');

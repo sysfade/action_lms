@@ -1,4 +1,5 @@
-const BASE = '/api/certificates';
+import { API_URL } from './config';
+const BASE = `${API_URL}/api/certificates`;
 
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',

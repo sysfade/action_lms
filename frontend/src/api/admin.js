@@ -1,4 +1,5 @@
-const BASE = '/api/admin';
+import { API_URL } from './config';
+const BASE = `${API_URL}/api/admin`;
 
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',

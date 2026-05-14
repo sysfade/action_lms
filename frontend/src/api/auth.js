@@ -1,4 +1,5 @@
-const BASE = '/api/auth';
+import { API_URL } from './config';
+const BASE = `${API_URL}/api/auth`;
 
 const handleResponse = async (res) => {
   const text = await res.text();

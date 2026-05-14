@@ -1,3 +1,4 @@
+import { API_URL } from './config';
 const getAuthHeaders = () => ({
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${localStorage.getItem('lms_token')}`,
@@ -14,10 +15,10 @@ const handleResponse = async (res) => {
 };
 
 export const getMyXP = () =>
-  fetch('/api/xp/me', { headers: getAuthHeaders() }).then(handleResponse);
+  fetch(`${API_URL}/api/xp/me`, { headers: getAuthHeaders() }).then(handleResponse);
 
 export const getLeaderboard = () =>
-  fetch('/api/xp/leaderboard', { headers: getAuthHeaders() }).then(handleResponse);
+  fetch(`${API_URL}/api/xp/leaderboard`, { headers: getAuthHeaders() }).then(handleResponse);
 
 export const getMyAchievements = () =>
-  fetch('/api/xp/achievements', { headers: getAuthHeaders() }).then(handleResponse);
+  fetch(`${API_URL}/api/xp/achievements`, { headers: getAuthHeaders() }).then(handleResponse);
