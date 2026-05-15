@@ -21,18 +21,18 @@ const findByUser = async (userId) =>
   );
 
 const markAsRead = async (id) =>
-  db.query('UPDATE notifications SET is_read = 1 WHERE id = $1', [id]);
+  db.query('UPDATE notifications SET is_read = true WHERE id = $1', [id]);
 
 const countUnread = async (userId) => {
   const result = await db.query(
-    'SELECT COUNT(*) as count FROM notifications WHERE user_id = $1 AND is_read = 0',
+    'SELECT COUNT(*) as count FROM notifications WHERE user_id = $1 AND is_read = false',
     [userId]
   );
   return result.rows[0].count;
 };
 
 const markAllRead = async (userId) =>
-  db.query('UPDATE notifications SET is_read = 1 WHERE user_id = $1', [userId]);
+  db.query('UPDATE notifications SET is_read = true WHERE user_id = $1', [userId]);
 
 const deleteOne = async (id, userId) =>
   db.query('DELETE FROM notifications WHERE id = $1 AND user_id = $2', [id, userId]);

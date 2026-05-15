@@ -78,7 +78,7 @@ const submitAssessment = async (req, res) => {
 
       // Auto-marking for MCQ
       if (q.type === 'mcq' && studentAns?.selectedOptionId) {
-        const correctOption = q.options.find(o => o.is_correct === 1);
+        const correctOption = q.options.find(o => o.is_correct === true || o.is_correct === 1);
         if (correctOption && correctOption.id === studentAns.selectedOptionId) {
           totalScore += q.points;
         }
