@@ -3,7 +3,8 @@ const path = require('path');
 const crypto = require('crypto');
 const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, '../../lms.db');
+const dataDir = process.env.DATA_DIR || path.join(__dirname, '../../');
+const DB_PATH = path.join(dataDir, 'lms.db');
 
 // Ensure database file exists
 const db = new sqlite3.Database(DB_PATH);

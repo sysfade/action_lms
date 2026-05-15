@@ -5,7 +5,8 @@ const path = require('path');
 const fs = require('fs');
 
 // Ensure uploads directory exists
-const uploadDir = path.join(__dirname, '../../uploads');
+const dataDir = process.env.DATA_DIR || path.join(__dirname, '../../');
+const uploadDir = path.join(dataDir, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

@@ -26,7 +26,8 @@ app.use(cors({
 app.use(express.json());
 
 // Serve uploads as static files
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+const dataDir = process.env.DATA_DIR || path.join(__dirname, '../');
+app.use('/uploads', express.static(path.join(dataDir, 'uploads')));
 
 // --- Routes ---
 
