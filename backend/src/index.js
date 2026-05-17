@@ -51,7 +51,12 @@ app.use('/uploads', express.static(path.join(dataDir, 'uploads')));
 
 // Health check (Public - must be before authenticate middleware)
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', database: 'sqlite', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    database: process.env.DATABASE_URL ? 'configured' : 'missing',
+    jwt: process.env.JWT_SECRET ? 'configured' : 'missing',
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.use('/api/auth', authRoutes);
