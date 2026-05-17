@@ -1,5 +1,5 @@
 import { API_URL } from './config';
-const BASE = '/api';
+const BASE = `${API_URL}/api`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('lms_token');

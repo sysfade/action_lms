@@ -1,6 +1,6 @@
 import { API_URL } from './config';
-const BASE_COURSES = '/api/courses';
-const BASE_LESSONS = '/api/lessons';
+const BASE_COURSES = `${API_URL}/api/courses`;
+const BASE_LESSONS = `${API_URL}/api/lessons`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('lms_token');
