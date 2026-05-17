@@ -10,7 +10,7 @@ const VALID_REGISTRATION_ROLES = ['student', 'instructor'];
 const signToken = (user) =>
   jwt.sign(
     { id: user.id, role: user.role },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || 'fallback_secret_for_development',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
 
