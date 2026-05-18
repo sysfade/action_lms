@@ -17,6 +17,8 @@ const TYPE_CONFIG = {
   course_enrolled:  { icon: '🎓', accent: '#2563EB', bg: '#EFF6FF', label: 'Enrollment' },
   submission_graded:{ icon: '✅', accent: '#16A34A', bg: '#F0FDF4', label: 'Graded' },
   new_submission:   { icon: '📥', accent: '#7C3AED', bg: '#F5F3FF', label: 'Submission' },
+  xp:               { icon: '⚡', accent: '#D97706', bg: '#FFFBEB', label: 'XP Earned' },
+  achievement:      { icon: '🏅', accent: '#F59E0B', bg: '#FEF3C7', label: 'Achievement' },
   system:           { icon: '🔔', accent: '#64748B', bg: '#F8FAFC', label: 'System' },
 };
 

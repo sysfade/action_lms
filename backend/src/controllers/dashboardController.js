@@ -10,14 +10,22 @@ const getStudentDashboard = async (userId) => {
     // Total & completed lessons across all enrolled courses
     db.query(
       `SELECT
-         COALESCE(SUM((SELECT COUNT(*) FROM lessons WHERE course_id = c.id)), 0) AS total_lessons,
-         COALESCE(SUM((
-           SELECT COUNT(*) FROM lesson_completions lc
-           JOIN lessons l ON l.id = lc.lesson_id
-           WHERE l.course_id = c.id AND lc.student_id = $1
-         )), 0) AS completed_lessons
+         COALESCE(SUM(l_stats.total_lessons), 0) AS total_lessons,
+         COALESCE(SUM(lc_stats.completed_lessons), 0) AS completed_lessons
        FROM enrollments e
        JOIN courses c ON c.id = e.course_id
+       LEFT JOIN (
+         SELECT course_id, COUNT(*) AS total_lessons 
+         FROM lessons 
+         GROUP BY course_id
+       ) l_stats ON l_stats.course_id = c.id
+       LEFT JOIN (
+         SELECT l.course_id, COUNT(*) AS completed_lessons
+         FROM lesson_completions lc
+         JOIN lessons l ON l.id = lc.lesson_id
+         WHERE lc.student_id = $1
+         GROUP BY l.course_id
+       ) lc_stats ON lc_stats.course_id = c.id
        WHERE e.student_id = $1`,
       [userId]
     ),

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { getMySubmissions } from '../api/assessments';
 import { listMyCourses } from '../api/courses';
+import { getMyAchievements } from '../api/xp';
 
 const STATUS_META = {
   graded:          { label: 'Graded',         color: '#15803D', bg: '#F0FDF4', dot: '#22C55E' },
@@ -174,17 +175,56 @@ function SubmissionRow({ sub }) {
   );
 }
 
+function BadgeCard({ badge }) {
+  const isUnlocked = badge.unlocked;
+  return (
+    <div style={{
+      background: isUnlocked ? '#FFFBEB' : '#F8FAFC',
+      border: `1px solid ${isUnlocked ? '#FCD34D' : 'var(--color-border)'}`,
+      borderRadius: 14, padding: '1.25rem',
+      display: 'flex', alignItems: 'center', gap: '1rem',
+      opacity: isUnlocked ? 1 : 0.6,
+      filter: isUnlocked ? 'none' : 'grayscale(100%)',
+      transition: 'all 0.2s',
+    }}>
+      <div style={{
+        width: 48, height: 48, borderRadius: '50%', flexShrink: 0,
+        background: isUnlocked ? '#FEF3C7' : '#E2E8F0',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '1.5rem', border: `2px solid ${isUnlocked ? '#F59E0B' : '#CBD5E1'}`,
+      }}>
+        {isUnlocked ? badge.emoji : '🔒'}
+      </div>
+      <div>
+        <div style={{ fontWeight: 700, fontSize: '0.9375rem', color: isUnlocked ? '#92400E' : 'var(--color-text)' }}>
+          {badge.name}
+        </div>
+        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: 2 }}>
+          {badge.description}
+        </div>
+        {isUnlocked && badge.unlockedAt && (
+          <div style={{ fontSize: '0.65rem', color: '#D97706', marginTop: 4, fontWeight: 600 }}>
+            Earned on {new Date(badge.unlockedAt).toLocaleDateString()}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function MyProgress() {
   const [submissions, setSubmissions] = useState([]);
   const [courses, setCourses]         = useState([]);
+  const [achievements, setAchievements] = useState([]);
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState(null);
 
   useEffect(() => {
-    Promise.all([getMySubmissions(), listMyCourses()])
-      .then(([subs, crses]) => {
+    Promise.all([getMySubmissions(), listMyCourses(), getMyAchievements()])
+      .then(([subs, crses, achvs]) => {
         setSubmissions(subs);
         setCourses(crses);
+        setAchievements(achvs.badges || []);
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
@@ -250,6 +290,32 @@ export default function MyProgress() {
                 </div>
               </section>
             )}
+
+            {/* ── My Achievements ────────────────────────── */}
+            <section style={{ marginBottom: '2.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1rem' }}>
+                <h2 style={{ fontSize: '1.125rem', fontWeight: 700, letterSpacing: '-0.3px' }}>
+                  My Achievements
+                </h2>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+                  {achievements.filter(a => a.unlocked).length} of {achievements.length} unlocked
+                </span>
+              </div>
+              
+              {achievements.length === 0 ? (
+                <div style={{ padding: '2rem', textAlign: 'center', background: '#fff', borderRadius: 14, border: '1px dashed var(--color-border)', color: 'var(--color-text-muted)' }}>
+                  No badges available.
+                </div>
+              ) : (
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                  gap: '1rem',
+                }}>
+                  {achievements.map(b => <BadgeCard key={b.key} badge={b} />)}
+                </div>
+              )}
+            </section>
 
             {/* ── Assessment Results ─────────────────────── */}
             <section>

@@ -67,8 +67,8 @@ const getLeaderboard = async (limit = 20) => {
      FROM users u
      LEFT JOIN xp_events x ON x.user_id = u.id
      WHERE u.role = 'student'
-     GROUP BY u.id
-     HAVING total_xp > 0
+     GROUP BY u.id, u.name
+     HAVING COALESCE(SUM(x.xp_amount), 0) > 0
      ORDER BY total_xp DESC
      LIMIT $1`,
     [limit]
